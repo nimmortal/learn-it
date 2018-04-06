@@ -1,0 +1,66 @@
+group 'learn.it'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+// Own training/
+
+ext.projectVersion = "4.0"
+
+project.task("Task1")
+
+task("Task2")
+
+task "Task3"
+
+task Task4
+
+Task4.description = "Task 4 description"
+
+Task4.doLast { println("This is Task 4") }
+
+// deprecated
+// Task3 << { println("This is Task 3") }
+
+task("Task5") {
+    doLast {
+        println "This is Task 5"
+    }
+}
+
+Task5.doLast {
+    println("Another closure")
+}
+
+task(Task6) {
+    description = "This is Task6"
+    dependsOn Task5
+    doFirst{
+        println("Task6 - first")
+    }
+    doLast {
+        println("This is Task6 - version $projectVersion")
+    }
+}
+
+Task6.doFirst {
+    println("Another Task6 first")
+}
+
+// Initialization phase -> Configuration phase -> Execution phase
+// Initialization phase = configure multi projects builds
+// Configuration phase = executes code that is not tasks action
+// Execution phase = execute the task action
+
+Task6.dependsOn Task4
+Task5.dependsOn Task4
