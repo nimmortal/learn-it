@@ -1,0 +1,43 @@
+task taskA { doLast { println("Task A") } }
+task taskB { doLast { println("Task B") } }
+task taskC { doLast { println("Task C") } }
+task taskD { doLast { println("Task D") } }
+task taskE { doLast { println("Task E") } }
+task taskF { doLast { println("Task F") } }
+
+taskA.dependsOn taskB
+taskA.dependsOn taskC, taskD
+
+// Invoke the task
+// gradle taskA
+// to hide gradle system output use:
+// gradle -q taskA
+
+taskC.dependsOn taskE
+taskD.dependsOn taskE
+
+// The dependency order is strict and it's impossible
+// to change it via dependsOn definition
+
+taskA.dependsOn taskE
+
+// ref: https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:ordering_tasks
+// “must run after” ordering rule specify that taskB must always run after taskA,
+// whenever both taskA and taskB will be run.
+// “should run after” ordering rule will be ignored in two situations.
+// Firstly if using that rule introduces an ordering cycle.
+// Secondly when using parallel execution
+// Use “should run after” where the ordering is helpful but not strictly required.
+
+taskB.mustRunAfter taskC
+taskB.shouldRunAfter taskB
+
+// ref: https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:finalizer_tasks
+// Finalizer tasks are automatically added to the task graph when the finalized task is scheduled to run.
+
+taskE.finalizedBy taskF
+
+task task1 { doLast { println("task 1")} }
+task task2 { doLast { println("task 2")} }
+
+task2.mustRunAfter task1
