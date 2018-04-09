@@ -1,0 +1,30 @@
+// ref: https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Copy.html
+def contentSpec = copySpec {
+//    exclude 'IMG_00001.jpg', 'IMG_00002.jpg'
+    exclude {
+        it.file.name.startsWith('IMG')
+    }
+
+    from 'src'
+}
+
+task copyImages(type: Copy) {
+    with contentSpec
+    into 'dest'
+}
+
+task copyImages2(type: Copy) {
+    exclude 'IMG_00001.jpg', 'IMG_00002.jpg'
+    from 'src'
+    into 'dest'
+}
+
+
+task copyConfig(type: Copy) {
+    include 'web.xml'
+    from 'src'
+    into 'config'
+    expand (
+        [resourceRefName: 'jdbc/JacketDB']
+    )
+}
