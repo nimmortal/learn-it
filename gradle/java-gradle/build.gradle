@@ -1,0 +1,14 @@
+allprojects {
+    apply plugin: 'java'
+}
+
+project(':repository') {
+
+}
+
+project(':service') {
+    dependencies {
+        compile project(':repository')
+    }
+}
+

@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+// change source location
+sourceSets {
+  main {
+    java {
+      srcDir 'src'
+    }
+  }
+  test {
+    java {
+      srcDir 'test/src'
+    }
+  }
+}
+
+dependencies {
+  // include external jar
+  compile files ('lib/log4j-1.2.8.jar', 'lib/junit-3.8.1.jar')
+}
+
+task wrapper (type: Wrapper)
+
+// pass arguments to the program
+run {
+  if(project.hasProperty('args')){
+    args project.args.split('\\s')
+  }
+}
+
+// for `application` plugin to run app
+mainClassName = 'com.pluralsight.security.Hash'
+
+// To launch this program use:
+// gradle run -Pargs="-f build.gradle -d build.hash"
