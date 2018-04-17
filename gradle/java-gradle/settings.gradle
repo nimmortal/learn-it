@@ -1,2 +1,2 @@
-include 'repository', 'service'
+include 'repository', 'service', 'scratch'
 

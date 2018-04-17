@@ -1,2 +1,4 @@
 rootProject.name = 'gradle'
-
+include 'task-definition'
+include 'task-dependencies'
+include 'typed-tasks'
