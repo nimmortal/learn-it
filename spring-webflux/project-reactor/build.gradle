@@ -1,0 +1,25 @@
+group 'it.learn'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: "groovy"
+
+sourceCompatibility = 1.8
+
+ext {
+    reactorVersion = '3.1.6.RELEASE'
+    spockVersion = '1.1-groovy-2.4'
+}
+
+dependencies {
+    compile "io.projectreactor:reactor-core:${reactorVersion}"
+
+    compile "org.springframework.boot:spring-boot-starter-logging:2.0.1.RELEASE"
+
+    // mandatory dependencies for using Spock
+    compile "org.codehaus.groovy:groovy-all:2.4.13"
+    testCompile "org.spockframework:spock-core:${spockVersion}"
+//    testCompile "org.spockframework:spock-spring:${spockVersion}"
+
+    testCompile "io.projectreactor:reactor-test:${reactorVersion}"
+}
