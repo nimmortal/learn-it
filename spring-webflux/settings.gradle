@@ -1,3 +1,4 @@
 rootProject.name = 'spring-webflux'
 include 'project-reactor'
+include 'webflux-annotations'
 
