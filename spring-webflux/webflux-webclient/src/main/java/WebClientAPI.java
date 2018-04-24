@@ -3,6 +3,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 public class WebClientAPI {
     private WebClient webClient;
@@ -17,12 +18,6 @@ public class WebClientAPI {
     public static void main(String args[]) {
         WebClientAPI api = new WebClientAPI();
 
-        // TODO: 24.04.2018. Why requests not working until blocking?
-
-//        System.out.println(api.getAllProducts().blockFirst());
-
-//        api.getAllProducts().subscribe(System.out::println);
-
         api.postNewProduct()
                 .thenMany(api.getAllProducts())
                 .take(1)
@@ -30,23 +25,9 @@ public class WebClientAPI {
                 .flatMap(p -> api.deleteProduct(p.getId()))
                 .thenMany(api.getAllProducts())
                 .thenMany(api.getAllEvents())
+                .subscribeOn(Schedulers.newSingle("requests"))
                 .subscribe(System.out::println);
 
-
-//        try {
-//            Thread.sleep(5000L);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
-        /*
-        Program output
-        [DEBUG] (main) Using Console logging
-        [DEBUG] (main) Default Epoll support : false
-        [DEBUG] (main) Default KQueue support : false
-        [DEBUG] (main) New http client pool for localhost/127.0.0.1:8080
-        [DEBUG] (main) Acquiring existing channel from pool: DefaultPromise@4d154ccd(incomplete) SimpleChannelPool{activeConnections=0}
-        */
     }
 
     private Mono<ResponseEntity<Product>> postNewProduct() {
