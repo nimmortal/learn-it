@@ -1,0 +1,16 @@
+group 'it.learn'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework:spring-webflux:5.0.5.RELEASE'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+    compile 'io.projectreactor.ipc:reactor-netty:0.7.6.RELEASE'
+}
